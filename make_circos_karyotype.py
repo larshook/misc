@@ -61,6 +61,7 @@ if args.invert:
     df.ID=df.ID.values[::-1]
     df.end=df.end.values[::-1]
     df.chr_nr=df.chr_nr.values[::-1]
+    df.col=df.col.values[::-1]
 
 df_final=df.to_csv(index=False, header=False, sep=' ')
 
