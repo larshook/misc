@@ -1,18 +1,19 @@
 # 2021 Lars Höök - lars.hook@ebc.uu.se
 #
-# script to make karyotype table for circos plot from assembly fasta
-# expects fasta file name in the format: PROJECT_SAMPLE*.fasta
-# sample id is added to chromosome id to separate samples with similar scaffold names
-# output format is:
+# Script to make karyotype table for circos plot from assembly fasta.
+# Expects fasta file name in the format: PROJECT_SAMPLE*.fasta.
+# Sample id is added to chromosome id to separate samples with similar scaffold names.
+# Output format is:
 # 'chr -' 'chromosome_id' 'label' 'start' 'end' 'color'
 #
-# run: python make_karyotype.py infile.fasta outfile.txt [-options]
+# Run: python make_circos_karyotype.py infile.fasta outfile.txt [-options]
 #
-# options:
+# Options:
 # -c/--color    add color variable 'col_N' (default='grey')
 # -i/--invert   invert karyotype table (default=off)
 #
 # TODO: make color customizable
+# Extend help
 
 import sys
 import argparse
