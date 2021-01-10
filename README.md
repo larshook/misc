@@ -1,6 +1,6 @@
 # misc
 
-Collection of basic scripts for processing omics data
+<b> Collection of basic scripts for processing omics data </b>
 
 
-make_circos_karyotype.py - script to make karyotype table for circos plot from assembly fasta
+<b> make_circos_karyotype.py </b> - script to make karyotype table for circos plot from assembly fasta
