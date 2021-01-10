@@ -53,7 +53,7 @@ df.insert(4, 'start', '0')
 
 if args.color:
     df.insert(6, 'col', 'col_')
-    df['col']=(df['col'] + (df.groupby('col_').cumcount() + 1).astype(str))
+    df['col']=(df['col'] + (df.groupby('col').cumcount() + 1).astype(str))
 else:
     df.insert(6, 'col', 'grey')
 
