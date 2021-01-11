@@ -46,7 +46,6 @@ parser.add_argument("-tc", "--target_column", help="set target column", type=int
 parser.add_argument("-ts", "--target_start", help="set target start", type=int, required=True)
 parser.add_argument("-te", "--target_end", help="set target end", type=int, required=True)
 parser.add_argument("-c", "--color", help="add color scale (default=off)", action="store_true")
-
 args=parser.parse_args()
 
 # make new table based on arguments
@@ -65,7 +64,7 @@ df_ = df.iloc[:, [query, qstart, qend, target, tstart, tend]]
 df_.iloc[:, 0] = args.query + "_" + df_.iloc[:, 0]
 df_.iloc[:, 3] = args.target + "_" + df_.iloc[:, 3]
 
-# sort on query scaffold, needed for color scale order to match karyotype input file
+# sort on query scaffolds, needed for color scale order to match karyotype input file
 df_.iloc[:, 0] = pd.Categorical(df_.iloc[:, 0], ordered=True, categories= ns.natsorted(df_.iloc[:, 0].unique()))
 df_ = df_.sort_values('Query')
 
