@@ -23,7 +23,7 @@
 # -te/--target_end [INT]        set target end
 #
 # Options:
-# -c/--color                    add color scale (default=off)
+# -c/--color                    add color scale 'col_N' (default=off)
 #
 # TODO:
 #  +/- alignments
@@ -45,7 +45,7 @@ parser.add_argument("-qe", "--query_end", help="set query end", type=int, requir
 parser.add_argument("-tc", "--target_column", help="set target column", type=int, required=True)
 parser.add_argument("-ts", "--target_start", help="set target start", type=int, required=True)
 parser.add_argument("-te", "--target_end", help="set target end", type=int, required=True)
-parser.add_argument("-c", "--color", help="add color scale (default=off)", action="store_true")
+parser.add_argument("-c", "--color", help="add color scale 'col_N' (default=off)", action="store_true")
 args=parser.parse_args()
 
 # make new table based on arguments
