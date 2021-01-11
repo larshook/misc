@@ -9,7 +9,7 @@
 # Run: python make_circos_karyotype.py infile.fasta outfile.txt [-options]
 #
 # Options:
-# -c/--color    add color variable 'col_N' (default='grey')
+# -c/--color    add color scale 'col_N' (default='grey')
 # -i/--invert   invert karyotype table (default=off)
 #
 # TODO: make color customizable
@@ -23,7 +23,7 @@ import re
 
 parser=argparse.ArgumentParser()
 parser.add_argument('files', nargs='*')
-parser.add_argument("-c", "--color", help="add color variable (default=off/grey)", action="store_true")
+parser.add_argument("-c", "--color", help="add color scale 'col_N' (default=off/grey)", action="store_true")
 parser.add_argument("-i", "--invert", help="invert karyotype table (ascending order)", action="store_true")
 args=parser.parse_args()
 
