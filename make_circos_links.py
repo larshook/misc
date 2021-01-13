@@ -27,6 +27,8 @@
 #
 # TODO:
 #  +/- alignments
+# add transparency setting -tl --transparency_level [1-5] 
+#
 
 
 import argparse
