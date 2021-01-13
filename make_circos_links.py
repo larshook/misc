@@ -70,7 +70,7 @@ df_ = df_.sort_values('Query')
 
 # add color scale
 if args.color:
-    df_.insert(6, 'col', 'col_')
+    df_.insert(6, 'col', 'color=col_')
     df_['col'] = (df_['col'] + (df_.groupby('col').cumcount() + 1).astype(str))
 
 # print to file
