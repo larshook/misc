@@ -1,20 +1,24 @@
 #!/bin/bash -l
 
-# Script to calculate fraction of W (female) specific positions per assembly scaffolds.
+#SBATCH ...
+
+# Lars Höök, 2021 - lars.hook@ebc.uu.se
+
+# Script (slurm) to calculate fraction of W (female) specific positions per assembly scaffolds.
 # W specific position is defined as having coverage by female reads and not by male reads.
 # Positions with male read coverage only are considered as noise and are kept as neutral.
 # Positions without coverage are filtered out.
 # Input is two bam files: male and female reads mapped to female assembly.
 
 
-############ set paths ############
+################## set paths ###################
 
 FEMALE=		#sample name
 BAM_MALE= 	#without extension
 BAM_FEMALE=	#without extension
 MAIN_PATH=	#path to folder with input files
 
-###################################
+################################################
 
 
 module load bioinfo-tools
@@ -25,7 +29,7 @@ cp $MAIN_PATH/$BAM_FEMALE.bam $SNIC_TMP
 
 cd $SNIC_TMP
 
-# use samtools to get per position read depth
+# use samtools to get per position read depth - http://www.htslib.org/doc/samtools-depth.html
 samtools depth -aa $BAM_MALE.bam > $BAM_MALE.cov
 samtools depth -aa $BAM_FEMALE.bam > $BAM_FEMALE.cov
 
@@ -45,6 +49,3 @@ cut -f1 table_filtered | uniq -c | sed 's/^\s*//' | awk '{print $2, $1}' | sort 
 awk 'NR==FNR{a[$1]=$2; next}{print $1, $2, a[$1], $4 = $2 / a[$1] }' position_count zero_count > table_final.txt
 
 cp $SNIC_TMP/table_final.txt $MAIN_PATH/
-
-
-#http://www.htslib.org/doc/samtools-depth.html
