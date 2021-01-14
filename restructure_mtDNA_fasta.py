@@ -1,10 +1,14 @@
-# 2020 Lars Höök - lars.hook@ebc.uu.se
+#!/usr/bin/env python
+#
+# Lars Höök, 2020 - lars.hook@ebc.uu.se
 #
 # Script that changes the starting gene of a circularized mitochondrial genome to trnM(atg).
-# Takes a genome fasta and annotation bed file as input and outputs a new restructured fasta.
-# Run: python restructure_mtDNA.py mtDNA.fasta mtDNA.bed
+# Takes a genome fasta and annotation bed file as input and outputs a new, restructured fasta.
+# 
+# Run: python restructure_mtDNA.py <mtDNA.fasta> <mtDNA.bed>
 #
 # TODO: take any input name as start position "--start_gene"
+#
 
 import sys
 import pandas as pd
