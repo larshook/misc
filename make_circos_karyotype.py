@@ -1,4 +1,6 @@
-# 2021 Lars Höök - lars.hook@ebc.uu.se
+#!/usr/bin/env python
+#
+# Lars Höök, 2021 - lars.hook@ebc.uu.se
 #
 # Script to make karyotype table for circos plot from assembly fasta.
 # Expects fasta file name in the format: PROJECT_SAMPLE*.fasta.
@@ -6,7 +8,7 @@
 # Output format is:
 # 'chr -' 'chromosome_id' 'label' 'start' 'end' 'color'
 #
-# Run: python make_circos_karyotype.py infile.fasta outfile.txt [-options]
+# Run: python make_circos_karyotype.py <infile.fasta> <outfile.txt> [-options]
 #
 # Options:
 # -c/--color    add color scale 'col_N' (default='grey')
