@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# 2021 Lars Höök - lars.hook@ebc.uu.se
+# Lars Höök, 2021 - lars.hook@ebc.uu.se
 #
 # Script to transform alignment table into circos link input file.
 # Designed to let user choose columns depending on different alignment input file formats
