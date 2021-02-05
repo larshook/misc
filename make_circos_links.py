@@ -30,7 +30,7 @@
 # TODO:
 #  +/- alignments
 # add transparency setting -tl --transparency_level [1-5] 
-#
+# set in/out files without parameters
 
 
 import argparse
