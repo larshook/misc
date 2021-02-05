@@ -18,7 +18,7 @@ from Bio import SeqIO
 
 parser=argparse.ArgumentParser()
 parser.add_argument('files', nargs='*')
-parser.add_argument("-c", "--cutoff", help="entries below this cutoff will be removed", type=int, required=True)
+parser.add_argument("-c", "--cutoff", help="entries below this cutoff will be removed", type=float, required=True)
 parser.add_argument("-m", "--megabases", help="apply cutoff (-c) in megabases", action="store_true")
 parser.add_argument("-a", "--above", help="remove entries above cutoff (default=below)", action="store_true")
 args=parser.parse_args()
