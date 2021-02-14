@@ -10,4 +10,4 @@
 <b> split_multifasta_to_fasta.sh </b> - split a multifasta and make a separate file from each entry. </br>
 <b> pick_scaffolds_from_multifasta.py </b> - pick entries from multifasta based on list. </br>
 <b> filter_multifasta_by_length.py </b> - filter a multifasta on entry length. </br>
-<b> partition_blobtools_view_table.py </b> - partition the output table of blobtools view module. </br>
+<b> partition_blobtools_view_table.py </b> - partition the output table of BlobTools view module. </br>
