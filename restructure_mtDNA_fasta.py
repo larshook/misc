@@ -18,21 +18,21 @@ fasta_file = sys.argv[1]
 bed_file = sys.argv[2]
 
 # read BED-file and get position of trnM(atg).
-BED_file = pd.read_csv(bed_file, sep='\t', header=None)
-BED_file.columns = ["ID", "Start", "End", "Gene", "P-val", "Strand"]
-N_to_move = (BED_file.loc[BED_file['Gene'] == "trnM(atg)", 'Start'].iloc[0])
+bed = pd.read_csv(bed, sep='\t', header=None)
+bed.columns = ["ID", "Start", "End", "Gene", "P-val", "Strand"]
+N_to_move = (bed.loc[bed['Gene'] == "trnM(atg)", 'Start'].iloc[0])
 
 # Store fasta sequence
 for seq_record in SeqIO.parse(fasta_file, "fasta"):
-    SEQUENCE = seq_record.seq
+    sequence = seq_record.seq
 
 # Rearrange sequence to start with trnM(atg)
-START_SEQUENCE = SEQUENCE[N_to_move:]
-END_SEQUENCE = SEQUENCE[0:N_to_move]
+start_sequence = sequence[N_to_move:]
+end_sequence = sequence[0:N_to_move]
 
 #print to new file
 outputfile = fasta_file.split(".")[0]+"-rearranged.fasta"
-HEADER = fasta_file.split(".")[0]
+header = fasta_file.split(".")[0]
 with open(outputfile, 'w') as f:
-    print('>', HEADER, sep='', file=f)
-    print(START_SEQUENCE, END_SEQUENCE, sep='', file=f)
+    print('>', header, sep='', file=f)
+    print(start_sequence, end_sequence, sep='', file=f)
