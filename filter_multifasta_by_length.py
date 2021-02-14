@@ -23,23 +23,22 @@ parser.add_argument("-m", "--megabases", help="apply cutoff (-c) in megabases", 
 parser.add_argument("-a", "--above", help="remove entries above cutoff (default=below)", action="store_true")
 args=parser.parse_args()
 
-FASTA_FILE = sys.argv[1]
-OUT_FILE = sys.argv[2]
-SCAFFOLDS = []
+fasta_file = sys.argv[1]
+out_file = sys.argv[2]
+scaffolds = []
 
 if args.megabases:
-    CUTOFF = args.cutoff*1000000
+    cutoff = args.cutoff*1000000
 else:
-    CUTOFF = args.cutoff
+    cutoff = args.cutoff
 
 if args.above:
-    for seq_record in SeqIO.parse(FASTA_FILE, "fasta"):
-        if len(seq_record) < CUTOFF:
-            SCAFFOLDS.append(seq_record)
-
+    for seq_record in SeqIO.parse(fasta_file, "fasta"):
+        if len(seq_record) < cutoff:
+            scaffolds.append(seq_record)
 else:
-    for seq_record in SeqIO.parse(FASTA_FILE, "fasta"):
-        if len(seq_record) > CUTOFF:
-            SCAFFOLDS.append(seq_record)
+    for seq_record in SeqIO.parse(fasta_file, "fasta"):
+        if len(seq_record) > cutoff:
+            scaffolds.append(seq_record)
 
-SeqIO.write(SCAFFOLDS, OUT_FILE, "fasta")
+SeqIO.write(scaffolds, out_file, "fasta")
