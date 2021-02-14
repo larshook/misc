@@ -81,5 +81,3 @@ if args.color:
 df_final=df_.to_csv(index=False, header=False, sep=' ')
 with open(args.output_file, "w", newline='') as out_file:
     out_file.write(df_final)
-
-#print(df_final)  #for testing
