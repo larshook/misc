@@ -30,9 +30,9 @@
 #      The coverage threshold is set as a % of mean coverage to account for non-biological variance in sequencing depth.
 #      Example: mean coverage = 50X, % = 10 => threshold = 5X
 #
-#   4. Filter on GC% - similar to Filter 3 but ignores coverage.
+#   4. Filter on GC% - similar to 3. but ignores coverage.
 #
-#   5. Filter on coverage - similar to Filter 3 but ignores GC%.
+#   5. Filter on coverage - similar to 3. but ignores GC%.
 #
 # Options:
 #
@@ -48,10 +48,10 @@
 # -fgc/--gc_filter [FLOAT]      Filter on GC% only, remove beyond (+/-) N of mean set with --gc
 # -fcov/--cov_filter [FLOAT]    Filter on coverage only, remove below % of mean coverage set with --coverage
 
-# TODO: gc filters requires --gc etc.
-# print settings to log
-# make taxa input non-case sensitive
-# make output a list only - not entire table
+# TODO:
+# -GC filters requires --gc etc.
+# -Make taxa input non-case sensitive
+# -Errors
 
 import sys
 import os
@@ -90,11 +90,38 @@ else:
 
 sys.stdout = open(out_prefix+".log", "w")
 
-print("Log for partitioning Blobtools view table -", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"\n")
+print("\nLog for partitioning BlobTools view table -",
+      datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"\n")
+print("Filtering with following settings:\n")
 
-# print all settings here:
-# ...
+if args.exclude:
+    print("\t- Using subset of data, excluding scaffolds in list...\n")
+elif args.scaffolds:
+    print("\t- Using subset of data, including scaffolds in list...\n")
 
+if args.taxa:
+    print("\t- Removing scaffolds based on taxa present in list...\n")
+
+if args.xy_filter:
+    print("\t- Filtering on combination of GC% and coverage:")
+    print("\t  Removing scaffolds with ",
+          f"{args.gc / cent - args.xy_gc / cent:.2f}",
+          " > GC% > ",
+          f"{args.gc / cent + args.xy_gc / cent:.2f}",
+          " & coverage < ",
+          f"{args.xy_coverage / cent * args.coverage:.2f}","X\n")
+
+if args.gc_filter:
+    print("\t- Removing scaffolds with ",
+          f"{args.gc / cent - args.gc_filter / cent:.2f}",
+          " > GC% > ",
+          f"{args.gc / cent + args.gc_filter / cent:.2f}\n")
+
+if args.cov_filter:
+    print("\t- Removing scaffolds with coverage < ",
+          f"{args.cov_filter / cent * args.coverage:.2f}"+"X\n")
+
+print("\n. o O ( Results ) O o .\n")
 print("Total scaffolds:", f"{total_scaffold:,}")
 print("Total seq:", f"{total_seq:,}", "bp","\n")
 
@@ -104,17 +131,20 @@ if args.exclude:
         df = df[~df.iloc[:,0].isin(scaffolds)]
         processed_scaffold = len(df.index)
         processed_seq = df.iloc[:, 1].sum()
-        print("Processed scaffolds:", f"{processed_scaffold:,}")
-        print("Processed seq:", f"{processed_seq:,}", "bp", "\n")
-
+        print("Processed scaffolds:",
+              f"{processed_scaffold:,}")
+        print("Processed seq:",
+              f"{processed_seq:,}", "bp", "\n")
 elif args.scaffolds:
     with args.scaffolds as scaffolds:
         scaffolds = scaffolds.read().splitlines()
         df = df[df.iloc[:,0].isin(scaffolds)]
         processed_scaffold = len(df.index)
         processed_seq = df.iloc[:, 1].sum()
-        print("Processed scaffolds:", f"{processed_scaffold:,}")
-        print("Processed seq:", f"{processed_seq:,}", "bp", "\n")
+        print("Processed scaffolds:",
+              f"{processed_scaffold:,}")
+        print("Processed seq:",
+              f"{processed_seq:,}", "bp", "\n")
 
 if args.taxa:
     with args.taxa as taxa:
@@ -129,8 +159,10 @@ if args.taxa:
         removed_taxa_scaffolds = in_taxa_scaffold - out_taxa_scaffold
         removed_taxa_seq = in_taxa_seq - out_taxa_seq
 
-        print("Removed scaffolds based on taxa:", f"{removed_taxa_scaffolds:,}")
-        print("Removed seq based on taxa:", f"{removed_taxa_seq:,}", "bp", "\n")
+        print("Removed scaffolds based on taxa:",
+              f"{removed_taxa_scaffolds:,}")
+        print("Removed seq based on taxa:",
+              f"{removed_taxa_seq:,}", "bp", "\n")
 
 if args.xy_filter:
     in_xy_scaffolds = len(df.index)
@@ -145,8 +177,10 @@ if args.xy_filter:
     removed_xy_scaffolds = in_xy_scaffolds - out_xy_scaffolds
     removed_xy_seq = in_xy_seq - out_xy_seq
 
-    print("Removed scaffolds based on GC% and coverage filter:", f"{removed_xy_scaffolds:,}")
-    print("Removed seq based on GC% and coverage filter:", f"{removed_xy_seq:,}", "bp", "\n")
+    print("Removed scaffolds based on GC% and coverage filter:",
+          f"{removed_xy_scaffolds:,}")
+    print("Removed seq based on GC% and coverage filter:",
+          f"{removed_xy_seq:,}", "bp", "\n")
 
 if args.gc_filter:
     in_gc_scaffolds = len(df.index)
@@ -160,8 +194,10 @@ if args.gc_filter:
     removed_gc_scaffolds = in_gc_scaffolds - out_gc_scaffolds
     removed_gc_seq = in_gc_seq - out_gc_seq
 
-    print("Removed scaffolds based on GC% filter:", f"{removed_gc_scaffolds:,}")
-    print("Removed seq based on GC% filter:", f"{removed_gc_seq:,}", "bp", "\n")
+    print("Removed scaffolds based on GC% filter:",
+          f"{removed_gc_scaffolds:,}")
+    print("Removed seq based on GC% filter:",
+          f"{removed_gc_seq:,}", "bp", "\n")
 
 if args.cov_filter:
     in_cov_scaffolds = len(df.index)
@@ -174,10 +210,10 @@ if args.cov_filter:
     removed_cov_scaffolds = in_cov_scaffolds - out_cov_scaffolds
     removed_cov_seq = in_cov_seq - out_cov_seq
 
-    print("Removed scaffolds based on coverage filter:", f"{removed_cov_scaffolds:,}")
-    print("Removed seq based on coverage filter:", f"{removed_cov_seq:,}", "bp", "\n")
-
-# TODO: make check so that remaining and filtered scaffolds sum up to total_count
+    print("Removed scaffolds based on coverage filter:",
+          f"{removed_cov_scaffolds:,}")
+    print("Removed seq based on coverage filter:",
+          f"{removed_cov_seq:,}", "bp", "\n")
 
 kept_scaffolds = len(df.index)
 kept_seq = df.iloc[:, 1].sum()
@@ -185,21 +221,33 @@ removed_scaffolds = processed_scaffold - kept_scaffolds
 removed_seq = processed_seq - kept_seq
 
 print("Summary:", "\n")
-print("Scaffolds remaining:", f"{kept_scaffolds:,}")
-print("Scaffolds removed:", f"{removed_scaffolds:,}")
-print("% of processed scaffolds removed:", f"{removed_scaffolds / processed_scaffold * cent:.2f}","%")
-print("% of total scaffolds removed:", f"{removed_scaffolds / total_scaffold * cent:.2f}","%", "\n")
+print("Scaffolds remaining:",
+      f"{kept_scaffolds:,}")
+print("Scaffolds removed:",
+      f"{removed_scaffolds:,}")
+print("% of processed scaffolds removed:",
+      f"{removed_scaffolds / processed_scaffold * cent:.2f}","%")
+print("% of total scaffolds removed:",
+      f"{removed_scaffolds / total_scaffold * cent:.2f}","%", "\n")
 
-print("Seq remaining:", f"{kept_seq:,}")
-print("Seq removed:", f"{processed_seq - kept_seq:,}", "bp")
-print("% of processed seq removed:", f"{removed_seq / processed_seq * cent:.2f}","%")
-print("% of total seq removed:", f"{removed_seq / total_seq * cent:.2f}","%", "\n")
+print("Seq remaining:",
+      f"{kept_seq:,}", "bp")
+print("Seq removed:",
+      f"{processed_seq - kept_seq:,}", "bp")
+print("% of processed seq removed:",
+      f"{removed_seq / processed_seq * cent:.2f}","%")
+print("% of total seq removed:",
+      f"{removed_seq / total_seq * cent:.2f}","%", "\n")
 
-df_final = df.to_csv(index=False, sep='\t', header=False)
+df_final = df.iloc[:,0].to_csv(index=False, sep='\t', header=False)
 
 if args.output:
     with open (args.output+"-filtered.txt", 'w', newline='') as file:
         file.write(df_final)
+    print("Output written to:",
+          args.output+"-filtered.txt")
 else:
     with open (out_prefix+"-filtered.txt", 'w', newline='') as file:
         file.write(df_final)
+    print("Output written to:",
+          out_prefix+"-filtered.txt")
