@@ -51,6 +51,7 @@
 # TODO: gc filters requires --gc etc.
 # print settings to log
 # make taxa input non-case sensitive
+# make output a list only - not entire table
 
 import sys
 import os
