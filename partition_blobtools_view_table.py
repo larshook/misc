@@ -11,6 +11,7 @@
 #   3. Filter on GC and coverage
 #   4. Filter on GC
 #   5. Filter on coverage
+#   6. Filter on scaffolds length
 #
 # Description:
 #
@@ -34,6 +35,8 @@
 #
 #   5. Filter on coverage - similar to 3. but ignores GC%.
 #
+#   6. Filter on scaffold sequence length - scaffolds shorter than set bp threshold will be removed.
+#
 # Options:
 #
 # -o/--output <string>          Output file name (default=<infile>-filtered.txt)
@@ -47,12 +50,12 @@
 # -y/--xy_coverage [FLOAT]      Coverage threshold for --xy_filter, remove below N% of mean set with --coverage
 # -fgc/--gc_filter [FLOAT]      Filter on GC% only, remove beyond (+/-) N of mean set with --gc
 # -fcov/--cov_filter [FLOAT]    Filter on coverage only, remove below % of mean coverage set with --coverage
-
+# -l/--length [INT]             Scaffolds shorter than set threshold will be removed.
+#
 # TODO:
 # -GC filters requires --gc etc.
 # -Make taxa input non-case sensitive
 # -Errors
-# -include mean gc and coverage in log 
 
 import sys
 import os
@@ -76,6 +79,7 @@ parser.add_argument("-x", "--xy_gc", help="GC% threshold for --xy_filter, remove
 parser.add_argument("-y", "--xy_coverage", help="Coverage threshold for --xy_filter, remove below % of mean coverage set with -c", type=float)
 parser.add_argument("-fgc", "--gc_filter", help="Filter on GC% only, remove beyond (+/-) -gcf of mean set with parameter -gc", type=float)
 parser.add_argument("-fcov", "--cov_filter", help="Filter on coverage only, remove below % of mean coverage set with -c", type=float)
+parser.add_argument("-l", "--length", help="Scaffolds shorter than set threshold will be removed", type=int)
 args = parser.parse_args()
 
 cent = 100
@@ -94,6 +98,14 @@ sys.stdout = open(out_prefix+".log", "w")
 print("\nLog for partitioning BlobTools view table -",
       datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"\n")
 print("Filtering with following settings:\n")
+
+if args.gc:
+    print("\t- User defined mean GC%:",
+          f"{args.gc:.2f}","%\n")
+
+if args.coverage:
+    print("\t- User defined mean coverage:",
+          f"{args.coverage:.2f}","X\n")
 
 if args.exclude:
     print("\t- Using subset of data, excluding scaffolds in list...\n")
@@ -122,6 +134,10 @@ if args.cov_filter:
     print("\t- Removing scaffolds with coverage < ",
           f"{args.cov_filter / cent * args.coverage:.2f}"+"X\n")
 
+if args.length:
+    print("\t- Removing scaffolds < ",
+          f"{args.length:,}", "bp","\n")
+    
 print("\n. o O ( Results ) O o .\n")
 print("Total scaffolds:", f"{total_scaffold:,}")
 print("Total seq:", f"{total_seq:,}", "bp","\n")
@@ -216,6 +232,23 @@ if args.cov_filter:
     print("Removed seq based on coverage filter:",
           f"{removed_cov_seq:,}", "bp", "\n")
 
+if args.length:
+    in_length_scaffolds = len(df.index)
+    in_length_seq = df.iloc[:, 1].sum()
+
+    df = df[df.iloc[:, 1] > args.length]
+
+    out_length_scaffolds = len(df.index)
+    out_length_seq = df.iloc[:, 1].sum()
+    removed_length_scaffolds = in_length_scaffolds - out_length_scaffolds
+    removed_length_seq = in_length_seq - out_length_seq
+
+    print("Removed scaffolds based on length:",
+          f"{removed_length_scaffolds:,}")
+    print("Removed seq based on length:",
+          f"{removed_length_seq:,}", "bp", "\n")
+
+    
 kept_scaffolds = len(df.index)
 kept_seq = df.iloc[:, 1].sum()
 removed_scaffolds = processed_scaffold - kept_scaffolds
