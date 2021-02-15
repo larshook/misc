@@ -52,6 +52,7 @@
 # -GC filters requires --gc etc.
 # -Make taxa input non-case sensitive
 # -Errors
+# -include mean gc and coverage in log 
 
 import sys
 import os
