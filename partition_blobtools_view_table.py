@@ -36,7 +36,7 @@
 #
 # Options:
 #
-# -o/--output <string>          Output file name (default=<infile>.filtered)
+# -o/--output <string>          Output file name (default=<infile>-filtered.txt)
 # -s/--scaffolds <file>         File with list of scaffolds to include in filtering
 # -e/--exclude                  Changes behaviour of --scaffolds from include to exclude
 # -t/--taxa <file>              File with list of taxa to remove
@@ -64,7 +64,7 @@ import datetime
 
 parser=argparse.ArgumentParser()
 parser.add_argument('files', nargs='*')
-parser.add_argument("-o", "--output", help="Output file name", type=str)
+parser.add_argument("-o", "--output", help="Output file name (default=<infile>-filtered.txt)", type=str)
 parser.add_argument("-s", "--scaffolds", help="File with list of scaffolds to keep", type=argparse.FileType('r'))
 parser.add_argument("-e", "--exclude", help="Changes behaviour of --scaffolds from include to exclude", action="store_true")
 parser.add_argument("-t", "--taxa", help="File with list of taxa to remove", type=argparse.FileType('r'))
