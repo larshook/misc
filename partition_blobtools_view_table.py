@@ -185,9 +185,10 @@ if args.xy_filter:
     in_xy_scaffolds = len(df.index)
     in_xy_seq = df.iloc[:, 1].sum()
 
-    df = df[(df.iloc[:, 2] < args.gc / cent + args.xy_gc / cent) &
-            (df.iloc[:, 2] > args.gc / cent - args.xy_gc / cent) &
-            (df.iloc[:, 4] > args.xy_coverage / cent * args.coverage)]
+    df.drop(df[(df.iloc[:, 2] > args.gc / cent + args.xy_gc / cent) &
+        (df.iloc[:, 4] < args.xy_coverage / cent * args.coverage)].index, inplace=True)
+    df.drop(df[(df.iloc[:, 2] < args.gc / cent - args.xy_gc / cent) &
+        (df.iloc[:, 4] < args.xy_coverage / cent * args.coverage)].index, inplace=True)
 
     out_xy_scaffolds = len(df.index)
     out_xy_seq = df.iloc[:, 1].sum()
