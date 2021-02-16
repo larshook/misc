@@ -108,7 +108,7 @@ if args.gc:
 
 if args.coverage:
     print("\t- User defined mean coverage:",
-          f"{args.coverage:.2f}"+"X\n")
+          f"{args.coverage / cent * args.coverage:.2f}"+"X\n")
 
 if args.exclude:
     print("\t- Using subset of data, excluding scaffolds in list...\n")
