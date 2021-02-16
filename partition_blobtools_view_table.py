@@ -101,11 +101,11 @@ print("Filtering with following settings:\n")
 
 if args.gc:
     print("\t- User defined mean GC%:",
-          f"{args.gc:.2f}","%\n")
+          f"{args.gc:.2f}"+"%\n")
 
 if args.coverage:
     print("\t- User defined mean coverage:",
-          f"{args.coverage:.2f}","X\n")
+          f"{args.coverage:.2f}"+"X\n")
 
 if args.exclude:
     print("\t- Using subset of data, excluding scaffolds in list...\n")
@@ -118,24 +118,24 @@ if args.taxa:
 if args.xy_filter:
     print("\t- Filtering on combination of GC% and coverage:")
     print("\t  Removing scaffolds with ",
-          f"{args.gc / cent - args.xy_gc / cent:.2f}",
-          " > GC% > ",
-          f"{args.gc / cent + args.xy_gc / cent:.2f}",
-          " & coverage < ",
-          f"{args.xy_coverage / cent * args.coverage:.2f}","X\n")
+          f"{args.gc - args.xy_gc:.2f}",
+          "> GC% >",
+          f"{args.gc + args.xy_gc:.2f}",
+          "& coverage <",
+          f"{args.xy_coverage / cent * args.coverage:.2f}"+"X\n")
 
 if args.gc_filter:
     print("\t- Removing scaffolds with ",
-          f"{args.gc / cent - args.gc_filter / cent:.2f}",
-          " > GC% > ",
-          f"{args.gc / cent + args.gc_filter / cent:.2f}\n")
+          f"{args.gc - args.gc_filter:.2f}",
+          "> GC% >",
+          f"{args.gc + args.gc_filter:.2f}\n")
 
 if args.cov_filter:
-    print("\t- Removing scaffolds with coverage < ",
+    print("\t- Removing scaffolds with coverage <",
           f"{args.cov_filter / cent * args.coverage:.2f}"+"X\n")
 
 if args.length:
-    print("\t- Removing scaffolds < ",
+    print("\t- Removing scaffolds <",
           f"{args.length:,}", "bp","\n")
     
 print("\n. o O ( Results ) O o .\n")
