@@ -103,12 +103,14 @@ print("\nLog for partitioning BlobTools view table -",
 print("Filtering with following settings:\n")
 
 if args.gc:
+    show_gc = args.gc
     print("\t- User defined mean GC%:",
-          f"{args.gc:.2f}"+"%\n")
+          str(show_gc)+"%\n")
 
 if args.coverage:
+    show_cov = args.coverage
     print("\t- User defined mean coverage:",
-          f"{args.coverage / cent * args.coverage:.2f}"+"X\n")
+          str(show_cov)+"X\n")
 
 if args.exclude:
     print("\t- Using subset of data, excluding scaffolds in list...\n")
@@ -119,13 +121,14 @@ if args.taxa:
     print("\t- Removing scaffolds based on taxa present in list...\n")
 
 if args.xy_filter:
+    show_xy_cov = args.xy_coverage
     print("\t- Filtering on combination of GC% and coverage:")
     print("\t  Removing scaffolds with ",
           f"{args.gc - args.xy_gc:.2f}",
           "> GC% >",
           f"{args.gc + args.xy_gc:.2f}",
           "& coverage <",
-          f"{args.xy_coverage / cent * args.coverage:.2f}"+"X\n")
+          str(show_xy_cov)+"% of mean X\n")
 
 if args.gc_filter:
     print("\t- Removing scaffolds with ",
@@ -134,8 +137,9 @@ if args.gc_filter:
           f"{args.gc + args.gc_filter:.2f}\n")
 
 if args.cov_filter:
+    show_y_cov = args.cov_filter
     print("\t- Removing scaffolds with coverage <",
-          f"{args.cov_filter / cent * args.coverage:.2f}"+"X\n")
+          str(show_y_cov)+"% of mean X\n")
 
 if args.length:
     print("\t- Removing scaffolds <",
