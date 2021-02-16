@@ -55,7 +55,10 @@
 # TODO:
 # -GC filters requires --gc etc.
 # -Make taxa input non-case sensitive
+# -add switch to taxa - keep if in list
 # -Errors
+# -set limits for gc to avoid negative values for lower threshold
+# -change so coverage filter (both) is remove if not above, to be able to keep >0
 
 import sys
 import os
