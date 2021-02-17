@@ -55,7 +55,9 @@
 # TODO:
 # -GC filters requires --gc etc.
 # -Make taxa input non-case sensitive
-# -add switch to taxa - keep if in list
+# -Add switch to taxa - keep if in list
+# -Add: scaffolds removed based on subsetting and taxa filter
+# -Change log: processed scaffolds are after removing/keeping scaffolds and taxa
 # -Errors
 # -set limits for gc to avoid negative values for lower threshold
 # -change so coverage filter (both) is remove if not above, to be able to keep >0
