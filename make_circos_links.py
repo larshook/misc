@@ -28,9 +28,11 @@
 # -c/--color                    add color scale 'col_N' (default=off)
 #
 # TODO:
-#  +/- alignments
+# Sort on column set by -qc instead of labeled
+# +/- alignments
 # add transparency setting -tl --transparency_level [1-5] 
 # set in/out files without parameters
+#
 
 
 import argparse
